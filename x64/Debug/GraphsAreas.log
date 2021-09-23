@@ -1,4 +1,12 @@
-﻿  Main.cpp
-C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(52,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(58,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Function.cpp
+C:\Users\Nik\source\repos\GraphsAreas\Function.cpp(19,62): warning C4244: 'argument': conversion from 'Bdouble' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Nik\source\repos\GraphsAreas\Function.cpp(19,59): warning C4244: 'argument': conversion from 'Bdouble' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   GraphsAreas.vcxproj -> C:\Users\Nik\source\repos\GraphsAreas\x64\Debug\GraphsAreas.exe
