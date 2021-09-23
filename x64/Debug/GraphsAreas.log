@@ -1,9 +1,4 @@
-﻿  Function.cpp
-  Main.cpp
-C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(50,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(56,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Poliz.cpp
-  Generating Code...
-C:\Users\Nik\source\repos\GraphsAreas\Poliz.cpp(91): warning C4715: 'Poliz::CheckTypeSymbol': not all control paths return a value
-C:\Users\Nik\source\repos\GraphsAreas\Poliz.cpp(145): warning C4715: 'Poliz::SelectingAnAction': not all control paths return a value
+﻿  Main.cpp
+C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(52,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(58,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   GraphsAreas.vcxproj -> C:\Users\Nik\source\repos\GraphsAreas\x64\Debug\GraphsAreas.exe
