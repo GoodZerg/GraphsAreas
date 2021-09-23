@@ -56,7 +56,7 @@ public:
         UserAcceleration, ///< Measures the direction and intensity of device acceleration, independent of the gravity (m/s^2)
         Orientation,      ///< Measures the absolute 3D orientation (degrees)
 
-        Count             ///< Keep last -- the total number of sensor types
+        GetY             ///< Keep last -- the total number of sensor types
     };
 
     ////////////////////////////////////////////////////////////
