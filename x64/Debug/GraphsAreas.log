@@ -1,4 +1,9 @@
-﻿  Main.cpp
-C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(52,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Nik\source\repos\GraphsAreas\Main.cpp(58,100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  GraphsAreas.vcxproj -> C:\Users\Nik\source\repos\GraphsAreas\x64\Debug\GraphsAreas.exe
+﻿  Function.cpp
+  Main.cpp
+C:\Users\frela\source\repos\GraphsAreas\Main.cpp(53,66): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\frela\source\repos\GraphsAreas\Main.cpp(59,100): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  Poliz.cpp
+  Создание кода...
+C:\Users\frela\source\repos\GraphsAreas\Poliz.cpp(91): warning C4715: Poliz::CheckTypeSymbol: значение возвращается не при всех путях выполнения
+C:\Users\frela\source\repos\GraphsAreas\Poliz.cpp(145): warning C4715: Poliz::SelectingAnAction: значение возвращается не при всех путях выполнения
+  GraphsAreas.vcxproj -> C:\Users\frela\source\repos\GraphsAreas\x64\Debug\GraphsAreas.exe
