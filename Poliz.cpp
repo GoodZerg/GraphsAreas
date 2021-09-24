@@ -25,6 +25,20 @@ enum class Poliz::ActivitiesWithSymbol {
 };
 
 
+FuncMap Poliz::f_map = {
+  {"+", [](Bdouble f, Bdouble s) -> Bdouble { return f + s; }},
+  {"-", [](Bdouble f, Bdouble s) -> Bdouble { return s - f; }},
+  {"*", [](Bdouble f, Bdouble s) -> Bdouble { return s * f; }},
+  {"/", [](Bdouble f, Bdouble s) -> Bdouble { return s / f; }},
+  {"^", [](Bdouble f, Bdouble s) -> Bdouble { return std::pow(s,f); }},
+  {"_", [](Bdouble f, Bdouble s) -> Bdouble { return -f; }},
+  {"#", [](Bdouble f, Bdouble s) -> Bdouble { return std::sin(f); }},
+  {"$", [](Bdouble f, Bdouble s) -> Bdouble { return std::cos(f); }},
+  {"@", [](Bdouble f, Bdouble s) -> Bdouble { return std::log(f); }},
+  {"!", [](Bdouble f, Bdouble s) -> Bdouble { return std::exp(f); }},
+  {"?", [](Bdouble f, Bdouble s) -> Bdouble { return std::sqrt(f); }}
+};
+
 
 Poliz::Poliz(std::string str) {
   this->base_str_ = str;
@@ -109,71 +123,16 @@ Bdouble Poliz::GetY(Bdouble x) const {
     if (element != ' ' && element != 'n') {
       flag = true;
       std::cout << element << " ";
-      if (element == '+') {
-        Bdouble first = numbers_in_polis.top();
+      Bdouble first = numbers_in_polis.top();
+      numbers_in_polis.pop();
+      Bdouble second = 0;
+      if (element == '+' || element == '-' || element == '*' || element == '/' || element == '^') {
+        second = numbers_in_polis.top();
         numbers_in_polis.pop();
-        Bdouble second = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(first + second);
       }
-      if (element == '-') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        Bdouble second = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(second - first);
-      }
-      if (element == '*') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        Bdouble second = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(first * second);
-      }
-      if (element == '/') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        Bdouble second = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(second / first);
-      }
-      if (element == '^') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        Bdouble second = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(std::pow(second, first));
-      }
-      if (element == '_') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(-first);
-      }
-      if (element == '#') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(std::sin(first));
-      }
-      if (element == '$') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(std::cos(first));
-      }
-      if (element == '@') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(std::log(first));
-      }
-      if (element == '!') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(std::exp(first));
-      }
-      if (element == '?') {
-        Bdouble first = numbers_in_polis.top();
-        numbers_in_polis.pop();
-        numbers_in_polis.push(std::sqrt(first));
-      }
+      std::string tmp = " ";
+      tmp[0] = element;
+      numbers_in_polis.push(f_map.at(tmp)(first, second));
       std::cout << numbers_in_polis.top() << std::endl;
     }
     else {
@@ -243,22 +202,9 @@ Poliz::ActivitiesWithSymbol Poliz::SelectingAnAction(SymbolType symbol, char& pr
     if (symbol == SymbolType::NUMBER) {
       return ActivitiesWithSymbol::ADD_WITHOUT_SPACE_TO_ANSWER;
     }
-    if (symbol == SymbolType::MINUS) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::SIN) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::COS) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::LN) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::EXP) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::SQRT) {
+    if (symbol == SymbolType::MINUS || symbol == SymbolType::SIN || 
+      symbol == SymbolType::COS || symbol == SymbolType::LN ||
+      symbol == SymbolType::EXP || symbol == SymbolType::SQRT) {
       return ActivitiesWithSymbol::ADD_UNARY;
     }
     if (symbol == SymbolType::OPEN_BRACKET) {
@@ -283,31 +229,11 @@ Poliz::ActivitiesWithSymbol Poliz::SelectingAnAction(SymbolType symbol, char& pr
         return ActivitiesWithSymbol::ADD_TO_DEQUE;
       }
     }
-    if (symbol == SymbolType::SIN) {
+    if (symbol == SymbolType::SIN || symbol == SymbolType::COS || symbol == SymbolType::LN || 
+      symbol == SymbolType::EXP || symbol == SymbolType::SQRT) {
       return ActivitiesWithSymbol::ADD_UNARY;
     }
-    if (symbol == SymbolType::COS) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::LN) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::EXP) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::SQRT) {
-      return ActivitiesWithSymbol::ADD_UNARY;
-    }
-    if (symbol == SymbolType::MULTIPLICATION) {
-      return ActivitiesWithSymbol::ADD_TO_DEQUE;
-    }
-    if (symbol == SymbolType::DIVISION) {
-      return ActivitiesWithSymbol::ADD_TO_DEQUE;
-    }
-    if (symbol == SymbolType::DEGREE) {
-      return ActivitiesWithSymbol::ADD_TO_DEQUE;
-    }
-    if (symbol == SymbolType::OPEN_BRACKET) {
+    if (symbol == SymbolType::MULTIPLICATION || symbol == SymbolType::DIVISION || symbol == SymbolType::DEGREE || symbol == SymbolType::OPEN_BRACKET) {
       return ActivitiesWithSymbol::ADD_TO_DEQUE;
     }
     if (symbol == SymbolType::CLOSE_BRACKET) {

@@ -11,7 +11,7 @@ public:
 private:
   enum class SymbolType;
   enum class ActivitiesWithSymbol;
-  
+  static FuncMap f_map;
   std::string poliz_ = "";
   std::string base_str_ = "";
 
@@ -20,4 +20,5 @@ private:
   void DoAnAction(ActivitiesWithSymbol activity, std::deque<char>& main_deque, 
     std::string& polis_string, SymbolType symbol_type, char& symbol);
 };
+
 

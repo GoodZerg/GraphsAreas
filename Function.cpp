@@ -17,7 +17,7 @@ Function::Function(sf::RenderWindow& window, std::string str) {
       y = min_y;
     }
     line[static_cast<int>((i + 10000)/10)] = sf::Vector2f(i, y);
-    line[static_cast<int>((i + 10000)/10)].color = sf::Color::Black;
+    line[static_cast<int>((i + 10000)/10)].color = sf::Color::Red;
   }
   
 }
