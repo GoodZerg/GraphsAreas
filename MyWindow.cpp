@@ -5,16 +5,56 @@ MyWindow::MyWindow() : view_(view__){
   view_ = window_->getDefaultView();
   window_->setView(view_);
   view_.move(-view_.getSize().x / 2, -view_.getSize().y / 2);
+
   a_ = new Function(*window_, "ln(x)");
   a1_ = new Function(*window_, "-2*x+14");
   a2_ = new Function(*window_, "1/(2-x)+6");
-  x01_ = findInsert(a_, a1_);
-  x02_ = findInsert(a_, a2_);
-  x12_ = findInsert(a1_, a2_);
-  std::cout << x01_ << " " << x02_ << " " << x12_ << std::endl;
+
+  x01_ = FindRoots(a_, a1_);
+  x02_ = FindRoots(a_, a2_);
+  x12_ = FindRoots(a1_, a2_);
+
+  std::cout << "points: " << x01_ << " " << x02_ << " " << x12_ << "\n";
+
+  square0_ = FindIntegral(a_, std::min(x01_, x02_), std::max(x01_, x02_));
+  square1_ = FindIntegral(a1_, std::min(x01_, x12_), std::max(x01_, x12_));
+  square2_ = FindIntegral(a2_, std::min(x02_, x12_), std::max(x02_, x12_));
+
+  std::cout << "areas: " << square0_ << " " << square1_ << " " << square2_ << "\n";
+
+  if (std::abs(x01_ - x02_) >= std::abs(x01_ - x12_) &&
+    std::abs(x01_ - x02_) >= std::abs(x02_ - x12_)) {
+    square_integral_ = std::abs(square0_ - square1_ - square2_);
+  }
+  if (std::abs(x01_ - x12_) >= std::abs(x01_ - x02_) &&
+    std::abs(x01_ - x12_) >= std::abs(x02_ - x12_)) {
+    square_integral_ = std::abs(square1_ - square0_ - square2_);
+  }
+  if (std::abs(x02_ - x12_) >= std::abs(x01_ - x12_) &&
+    std::abs(x02_ - x12_) >= std::abs(x01_ - x02_)) {
+    square_integral_ = std::abs(square2_ - square1_ - square0_);
+  }
+
+  std::cout << "answer: " << square_integral_ << "\n";
 }
 
-Bdouble MyWindow::findInsert(Function* f1, Function* f2) {
+Bdouble MyWindow::FindIntegral(Function* f, Bdouble x0, Bdouble x1) {
+  Bdouble eps = 1e-7;
+  Bdouble square_prev = 1, square_current = 0;
+  size_t steps = 10;
+  while (std::abs(square_prev - square_current) > eps && steps <= 10000000) {
+    square_prev = square_current;
+    square_current = 0;
+    for (size_t i = 0; i < steps; ++i) {
+      square_current += std::abs(((x1 - x0) / steps) * 
+        f->findValue(x0 + ((x1 - x0) / steps) * i + ((x1 - x0) / steps) / 2));
+    }
+    steps <<= 1;
+  }
+  return square_current;
+}
+
+Bdouble MyWindow::FindRoots(Function* f1, Function* f2) {
   Bdouble left = -100, right = 100;
   Bdouble eps = 1e-2;
   Bdouble point = 0;
