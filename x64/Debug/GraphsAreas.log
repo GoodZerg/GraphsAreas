@@ -1,12 +1,2 @@
-﻿  Function.cpp
-C:\Users\frela\source\repos\GraphsAreas\Function.cpp(19,62): warning C4244: аргумент: преобразование "Bdouble" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-C:\Users\frela\source\repos\GraphsAreas\Function.cpp(19,59): warning C4244: аргумент: преобразование "Bdouble" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-  GraphsAreas.vcxproj -> C:\Users\frela\source\repos\GraphsAreas\x64\Debug\GraphsAreas.exe
+﻿  MyWindow.cpp
+  GraphsAreas.vcxproj -> C:\Users\Nik\source\repos\GraphsAreas\x64\Debug\GraphsAreas.exe

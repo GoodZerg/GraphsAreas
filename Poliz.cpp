@@ -122,7 +122,7 @@ Bdouble Poliz::GetY(Bdouble x) const {
   for (char element : poliz) {
     if (element != ' ' && element != 'n') {
       flag = true;
-      std::cout << element << " ";
+      
       Bdouble first = numbers_in_polis.top();
       numbers_in_polis.pop();
       Bdouble second = 0;
@@ -133,7 +133,7 @@ Bdouble Poliz::GetY(Bdouble x) const {
       std::string tmp = " ";
       tmp[0] = element;
       numbers_in_polis.push(f_map.at(tmp)(first, second));
-      std::cout << numbers_in_polis.top() << std::endl;
+      
     }
     else {
       if (element == 'n' && flag) {

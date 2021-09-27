@@ -15,11 +15,11 @@
 
 const double C_X = DBL_MAX;
 const sf::VideoMode C_window_size = sf::VideoMode(800, 600);
-const sf::Color C_back_color = sf::Color(180, 180, 180, 0);
+const sf::Color C_back_color = sf::Color(220, 220, 220, 0);
 const int C_grid_step = 100;
 const int C_grid_lines = 1000;
 const int C_grid_lenght = C_grid_step * C_grid_lines;
-const sf::Color C_grid_color = sf::Color(100, 100, 100);
+const sf::Color C_grid_color = sf::Color(50, 50, 50);
 
 
 typedef  long double Bdouble;

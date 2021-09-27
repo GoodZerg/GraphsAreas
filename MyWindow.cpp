@@ -5,12 +5,34 @@ MyWindow::MyWindow() : view_(view__){
   view_ = window_->getDefaultView();
   window_->setView(view_);
   view_.move(-view_.getSize().x / 2, -view_.getSize().y / 2);
-  a_ =  new Function(*window_, "(x+3)*(x-5)*(x-7)");
-  a1_ = new Function(*window_, "sin(x)");
-  a2_ = new Function(*window_, "ln(x)");
+  a_ = new Function(*window_, "ln(x)");
+  a1_ = new Function(*window_, "-2*x+14");
+  a2_ = new Function(*window_, "1/(2-x)+6");
+  x01_ = findInsert(a_, a1_);
+  x02_ = findInsert(a_, a2_);
+  x12_ = findInsert(a1_, a2_);
+  std::cout << x01_ << " " << x02_ << " " << x12_ << std::endl;
+}
+
+Bdouble MyWindow::findInsert(Function* f1, Function* f2) {
+  Bdouble left = -100, right = 100;
+  Bdouble eps = 1e-2;
+  Bdouble point = 0;
+  for (; eps >= 1e-6; eps /= 10) {
+    for (Bdouble i = right; i >= left; i -= eps) {
+      if (std::abs(f1->findValue(i) - f2->findValue(i)) <= eps * 10) {
+        point = i;
+        break;
+      }
+    }
+    left = point - eps * 10;
+    right = point + eps * 10;
+  }
+  return point;
 }
 
 MyWindow::~MyWindow() {
+  delete window_;
   delete a_;
   delete a1_;
   delete a2_;
@@ -56,13 +78,13 @@ void MyWindow::render() const {
 
 
     for (int i = 0; i < C_grid_lines; ++i) {
-      sf::RectangleShape line_with_thickness(sf::Vector2f(C_grid_lenght, i == C_grid_lines / 2 ? 15.f : 5.f));
+      sf::RectangleShape line_with_thickness(sf::Vector2f(C_grid_lenght, i == C_grid_lines / 2 ? 5.f : 2.f));
       line_with_thickness.rotate(90.f);
       line_with_thickness.setFillColor(C_grid_color);
       line_with_thickness.move(-1 * C_grid_lines / 2 * C_grid_step + i * C_grid_step + line_with_thickness.getSize().y / 2, -1 * C_grid_lines / 2 * C_grid_step);
       window_->draw(line_with_thickness);
 
-      sf::RectangleShape line_with_thickness2(sf::Vector2f(C_grid_lenght, i == C_grid_lines / 2 ? 15.f : 5.f));
+      sf::RectangleShape line_with_thickness2(sf::Vector2f(C_grid_lenght, i == C_grid_lines / 2 ? 5.f : 2.f));
       line_with_thickness2.rotate(0.f);
       line_with_thickness2.setFillColor(C_grid_color);
       line_with_thickness2.move(-1 * C_grid_lines / 2 * C_grid_step, -1 * C_grid_lines / 2 * C_grid_step + i * C_grid_step - line_with_thickness.getSize().y / 2);
