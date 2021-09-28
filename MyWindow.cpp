@@ -50,6 +50,29 @@ MyWindow::MyWindow() : view_(view__){
   y2_ = std::max(a_->findValue(x01_), std::max(a_->findValue(x02_), a1_->findValue(x12_)));
   y1_ = std::min(a_->findValue(x01_), std::min(a_->findValue(x02_), a1_->findValue(x12_)));
 
+  Bdouble l_max = -9999, l_min = 9999;
+  Bdouble tmp;
+  for (Bdouble i = x1_; i < x2_; i+= 0.001) {
+    if (i > std::min(x01_, x02_) && i < std::max(x01_, x02_)) {
+      tmp = a_->findValue(i);
+      if (tmp > l_max) l_max = tmp;
+      if (tmp < l_min) l_min = tmp;
+    }
+    if (i > std::min(x01_, x12_) && i < std::max(x01_, x12_)) {
+      tmp = a1_->findValue(i);
+      if (tmp > l_max) l_max = tmp;
+      if (tmp < l_min) l_min = tmp;
+    }
+    if (i > std::min(x02_, x12_) && i < std::max(x02_, x12_)) {
+      tmp = a2_->findValue(i);
+      if (tmp > l_max) l_max = tmp;
+      if (tmp < l_min) l_min = tmp;
+    }
+  }
+
+  if (l_max > y2_) y2_ = l_max;
+  if (l_min < y1_) y1_ = l_min;
+
   //std::cout << x1_ << " " << x2_ << " " << y1_ << " " << y2_ << " " << "\n";
 
   sign1_ = a1_->findValue(x12_) >  a_->findValue(x12_);
@@ -69,7 +92,7 @@ MyWindow::MyWindow() : view_(view__){
 
 Bdouble MyWindow::FindRngSquare() {
   size_t hit = 0;
-  size_t times = 300000;
+  size_t times = 500000;
   for (size_t i = 0; i < times; i++) {
     Bdouble r_x = random_double_range(x1_, x2_);
     Bdouble r_y = random_double_range(y1_, y2_);
