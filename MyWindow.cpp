@@ -1,5 +1,13 @@
 #include "MyWindow.h"
 
+Bdouble random_double_range(Bdouble const range_min, Bdouble const range_max) {
+  static unsigned long long const mant_mask53(9007199254740991);
+  static double const i_to_d53(1.0 / 9007199254740992.0);
+  unsigned long long const r((unsigned long long(rand()) | (unsigned long long(rand()) << 15) | 
+    (unsigned long long(rand()) << 30) | (unsigned long long(rand()) << 45)) & mant_mask53);
+  return range_min + i_to_d53 * Bdouble(r) * (range_max - range_min);
+}
+
 MyWindow::MyWindow() : view_(view__){
   window_ = new sf::RenderWindow(C_window_size, "My window");
   view_ = window_->getDefaultView();
@@ -35,7 +43,73 @@ MyWindow::MyWindow() : view_(view__){
     square_integral_ = std::abs(square2_ - square1_ - square0_);
   }
 
-  std::cout << "answer: " << square_integral_ << "\n";
+  std::cout << "integral answer: " << square_integral_ << "\n";
+
+  x2_ = std::max(x01_, std::max( x02_, x12_));
+  x1_ = std::min(x01_, std::min(x02_, x12_));
+  y2_ = std::max(a_->findValue(x01_), std::max(a_->findValue(x02_), a1_->findValue(x12_)));
+  y1_ = std::min(a_->findValue(x01_), std::min(a_->findValue(x02_), a1_->findValue(x12_)));
+
+  //std::cout << x1_ << " " << x2_ << " " << y1_ << " " << y2_ << " " << "\n";
+
+  sign1 = a1_->findValue(x12_) >  a_->findValue(x12_);
+  sign2 = a_->findValue(x02_)  > a1_->findValue(x02_);
+  sign3 = a1_->findValue(x01_) > a2_->findValue(x01_);
+
+  //std::cout << sign1 << " " << sign2 << " " << sign3 << "\n";
+
+  big_square_ = std::abs(x2_ - x1_) * std::abs(y2_ - y1_);
+
+  rng_ans_square_ = FindRngSquare();
+
+  std::cout << "rng answer: " << rng_ans_square_ << "\n";
+
+}
+
+
+Bdouble MyWindow::FindRngSquare() {
+  size_t hit = 0;
+  size_t times = 30000;
+  for (size_t i = 0; i < times; i++) {
+    Bdouble r_x = random_double_range(x1_, x2_);
+    Bdouble r_y = random_double_range(y1_, y2_);
+
+
+    if (sign1) {
+      if (r_y < a_->findValue(r_x)) {
+        continue;
+      }
+    } else {
+      if (r_y > a_->findValue(r_x)) {
+        continue;
+      }
+    }
+
+    if (sign2) {
+      if (r_y < a1_->findValue(r_x)) {
+        continue;
+      }
+    } else {
+      if (r_y > a1_->findValue(r_x)) {
+        continue;
+      }
+    }
+
+    if (sign3) {
+      if (r_y < a2_->findValue(r_x)) {
+        continue;
+      }
+    } else {
+      if (r_y > a2_->findValue(r_x)) {
+        continue;
+      }
+    }
+
+    hit++;
+
+  }
+
+  return big_square_ * hit / static_cast<Bdouble>(times);
 }
 
 Bdouble MyWindow::FindIntegral(Function* f, Bdouble x0, Bdouble x1) {
@@ -70,6 +144,7 @@ Bdouble MyWindow::FindRoots(Function* f1, Function* f2) {
   }
   return point;
 }
+
 
 MyWindow::~MyWindow() {
   delete window_;
