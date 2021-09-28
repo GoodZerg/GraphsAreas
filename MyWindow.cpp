@@ -52,9 +52,9 @@ MyWindow::MyWindow() : view_(view__){
 
   //std::cout << x1_ << " " << x2_ << " " << y1_ << " " << y2_ << " " << "\n";
 
-  sign1 = a1_->findValue(x12_) >  a_->findValue(x12_);
-  sign2 = a_->findValue(x02_)  > a1_->findValue(x02_);
-  sign3 = a1_->findValue(x01_) > a2_->findValue(x01_);
+  sign1_ = a1_->findValue(x12_) >  a_->findValue(x12_);
+  sign2_ = a_->findValue(x02_)  > a1_->findValue(x02_);
+  sign3_ = a1_->findValue(x01_) > a2_->findValue(x01_);
 
   //std::cout << sign1 << " " << sign2 << " " << sign3 << "\n";
 
@@ -69,13 +69,13 @@ MyWindow::MyWindow() : view_(view__){
 
 Bdouble MyWindow::FindRngSquare() {
   size_t hit = 0;
-  size_t times = 30000;
+  size_t times = 300000;
   for (size_t i = 0; i < times; i++) {
     Bdouble r_x = random_double_range(x1_, x2_);
     Bdouble r_y = random_double_range(y1_, y2_);
 
 
-    if (sign1) {
+    if (sign1_) {
       if (r_y < a_->findValue(r_x)) {
         continue;
       }
@@ -85,7 +85,7 @@ Bdouble MyWindow::FindRngSquare() {
       }
     }
 
-    if (sign2) {
+    if (sign2_) {
       if (r_y < a1_->findValue(r_x)) {
         continue;
       }
@@ -95,7 +95,7 @@ Bdouble MyWindow::FindRngSquare() {
       }
     }
 
-    if (sign3) {
+    if (sign3_) {
       if (r_y < a2_->findValue(r_x)) {
         continue;
       }

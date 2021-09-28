@@ -24,7 +24,7 @@ private:
 
   Bdouble x1_, x2_, y1_, y2_;
 
-  bool sign1, sign2, sign3;
+  bool sign1_, sign2_, sign3_;
 
   Bdouble big_square_;
   Bdouble rng_ans_square_;
